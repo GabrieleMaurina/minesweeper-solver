@@ -57,6 +57,7 @@ class Minesweeper:
         self.main_page_frame.pack_forget()
 
     def show_main_page(self):
+        self.board.resize()
         self.main_page_frame.pack()
         self.settings_page_frame.pack_forget()
 
