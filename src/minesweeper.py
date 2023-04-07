@@ -1,14 +1,15 @@
 import tkinter as tk
+from board import Board
 
 
 DEFAULT_WIDTH = 20
 DEFAULT_HEIGHT = 20
-CELL_SIZE = 20
 
 
 class Minesweeper:
     def __init__(self):
         self.root = tk.Tk()
+        self.root.title('Minesweeper')
         self.create_settings_page()
         self.create_main_page()
         self.show_settings_page()
@@ -49,9 +50,7 @@ class Minesweeper:
         self.solve_button = tk.Button(
             self.main_page_frame, text='Solve', command=None)
         self.solve_button.grid(row=0, column=2)
-        self.canvas = tk.Canvas(self.main_page_frame,
-                                width=CELL_SIZE * self.width(), height=CELL_SIZE * self.height())
-        self.canvas.grid(row=1, column=0, columnspan=4)
+        self.board = Board(self)
 
     def show_settings_page(self):
         self.settings_page_frame.pack()
