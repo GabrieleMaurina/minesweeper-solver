@@ -36,18 +36,18 @@ RED = '#ff0000'
 class Board:
     def __init__(self, minesweeper):
         self.minesweeper = minesweeper
-        self.canvas = tk.Canvas(self.minesweeper.main_page_frame, bg=GRAY)
+        self.canvas = tk.Canvas(self.minesweeper.gui.main_page_frame, bg=GRAY)
 
     def resize(self):
-        self.canvas.configure(width=CELL_SIZE * self.minesweeper.width(),
-                              height=CELL_SIZE * self.minesweeper.height())
+        self.canvas.configure(width=CELL_SIZE * self.minesweeper.gui.width(),
+                              height=CELL_SIZE * self.minesweeper.gui.height())
         self.canvas.grid(row=1, column=0, columnspan=4)
         self.draw()
 
     def draw(self):
-        for x in range(self.minesweeper.width()):
-            for y in range(self.minesweeper.height()):
-                v = self.minesweeper.state[x][y]
+        for x in range(self.minesweeper.gui.width()):
+            for y in range(self.minesweeper.gui.height()):
+                v = self.minesweeper.game.state[x][y]
                 self.draw_cell(x, y, v)
 
     def draw_cell(self, x, y, v):
