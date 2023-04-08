@@ -1,4 +1,6 @@
 import tkinter as tk
+from random import randrange
+import platform
 from board import Board
 
 
@@ -8,12 +10,23 @@ DEFAULT_HEIGHT = 20
 
 class Minesweeper:
     def __init__(self):
+        self.fix_res()
         self.root = tk.Tk()
         self.root.title('Minesweeper')
         self.create_settings_page()
         self.create_main_page()
         self.show_settings_page()
         self.root.mainloop()
+
+    def init_state(self):
+        self.state = [[randrange(-4, 9) for y in range(self.height())]
+                      for x in range(self.width())]
+
+    def fix_res(self):
+        os = platform.system()
+        if os == 'Windows':
+            import ctypes
+            ctypes.windll.shcore.SetProcessDpiAwareness(1)
 
     def create_settings_page(self):
         self.settings_page_frame = tk.Frame(self.root)
@@ -57,6 +70,7 @@ class Minesweeper:
         self.main_page_frame.pack_forget()
 
     def show_main_page(self):
+        self.init_state()
         self.board.resize()
         self.main_page_frame.pack()
         self.settings_page_frame.pack_forget()
