@@ -4,6 +4,7 @@ import tkinter as tk
 
 DEFAULT_WIDTH = 20
 DEFAULT_HEIGHT = 20
+DEFAULT_MINES = 20
 
 
 class GUI:
@@ -41,9 +42,15 @@ class GUI:
         self.height_entry = tk.Entry(
             self.settings_page_frame, width=4, textvariable=self.height_variable, validate='all', validatecommand=self.integer_only)
         self.height_entry.grid(row=1, column=1)
+        self.mines_label = tk.Label(self.settings_page_frame, text='Mines')
+        self.mines_label.grid(row=2, column=0)
+        self.mines_variable = tk.StringVar(self.root, DEFAULT_MINES)
+        self.mines_entry = tk.Entry(
+            self.settings_page_frame, width=4, textvariable=self.mines_variable, validate='all', validatecommand=self.integer_only)
+        self.mines_entry.grid(row=2, column=1)
         self.start_button = tk.Button(
             self.settings_page_frame, text='Start', command=self.show_main_page)
-        self.start_button.grid(row=2, column=0, columnspan=2)
+        self.start_button.grid(row=3, column=0, columnspan=2)
 
     def create_main_page(self):
         self.main_page_frame = tk.Frame(self.root)
@@ -82,3 +89,9 @@ class GUI:
             return int(self.height_variable.get())
         except ValueError:
             return DEFAULT_HEIGHT
+
+    def mines(self):
+        try:
+            return int(self.mines_variable.get())
+        except ValueError:
+            return DEFAULT_MINES
