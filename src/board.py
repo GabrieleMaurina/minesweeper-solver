@@ -155,6 +155,7 @@ class Board:
         self.canvas.bind('<ButtonPress-1>', self.on_mouse_down)
         self.canvas.bind('<ButtonRelease-1>', self.on_mouse_up)
         self.canvas.bind('<Motion>', self.on_mouse_motion)
+        self.canvas.bind('<Button-3>', self.on_right_click)
 
     def on_mouse_down(self, event):
         self.mouse_down = True
@@ -165,8 +166,10 @@ class Board:
         if self.last_cell:
             x = self.last_cell[0]
             y = self.last_cell[1]
-            self.draw_cell(x, y)
             self.last_cell = None
+            state = self.minesweeper.game.state[x][y]
+            if state == States.COVERED or state == States.FLAG:
+                self.minesweeper.game.click(x, y)
 
     def on_mouse_motion(self, event):
         if self.mouse_down:
@@ -184,3 +187,8 @@ class Board:
                     self.draw_empty(x, y)
             else:
                 self.last_cell = None
+
+    def on_right_click(self, event):
+        x, y = self.get_cell(event.x, event.y)
+        if x > 0 and y > 0 and x < self.minesweeper.gui.width() and y < self.minesweeper.gui.height():
+            self.minesweeper.game.right_click(x, y)

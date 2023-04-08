@@ -33,3 +33,10 @@ class Game:
 
     def click(self, x, y):
         pass
+
+    def right_click(self, x, y):
+        if self.state[x][y] == States.COVERED:
+            self.state[x][y] = States.FLAG
+        elif self.state[x][y] == States.FLAG:
+            self.state[x][y] = States.COVERED
+        self.minesweeper.board.draw_cell(x, y)
