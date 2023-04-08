@@ -1,6 +1,7 @@
 from gui import GUI
 from board import Board
 from game import Game
+from solver import Solver
 
 
 class Minesweeper:
@@ -8,6 +9,7 @@ class Minesweeper:
         self.gui = GUI(self)
         self.board = Board(self)
         self.game = Game(self)
+        self.solver = Solver(self)
         self.gui.start()
 
 

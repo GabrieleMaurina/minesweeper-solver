@@ -1,6 +1,7 @@
 import tkinter as tk
 import tkinter.font as tkfont
 from operator import add
+from game import States
 
 
 CELL_SIZE = 30
@@ -37,31 +38,32 @@ class Board:
     def __init__(self, minesweeper):
         self.minesweeper = minesweeper
         self.canvas = tk.Canvas(self.minesweeper.gui.main_page_frame, bg=GRAY)
+        self.init_mouse()
 
     def resize(self):
         self.canvas.configure(width=CELL_SIZE * self.minesweeper.gui.width(),
                               height=CELL_SIZE * self.minesweeper.gui.height())
         self.canvas.grid(row=1, column=0, columnspan=4)
-        self.draw()
+        self.draw_board()
 
-    def draw(self):
+    def draw_board(self):
         for x in range(self.minesweeper.gui.width()):
             for y in range(self.minesweeper.gui.height()):
-                v = self.minesweeper.game.state[x][y]
-                self.draw_cell(x, y, v)
+                self.draw_cell(x, y)
 
-    def draw_cell(self, x, y, v):
+    def draw_cell(self, x, y):
+        v = self.minesweeper.game.state[x][y]
         if v > 0 and v < 9:
             self.draw_number(x, y, v)
-        elif v == 0:
+        elif v == States.UNCOVERED:
             self.draw_uncovered(x, y)
-        elif v == -1:
+        elif v == States.COVERED:
             self.draw_covered(x, y)
-        elif v == -2:
+        elif v == States.FLAG:
             self.draw_flag(x, y)
-        elif v == -3:
+        elif v == States.MINE:
             self.draw_mine(x, y)
-        elif v == -4:
+        elif v == States.RED_MINE:
             self.draw_red_mine(x, y)
         else:
             raise ValueError(f'Invalid value: {v}')
@@ -141,3 +143,44 @@ class Board:
 
     def draw_red_mine(self, x, y):
         self.draw_mine(x, y, True)
+
+    def get_cell(self, x, y):
+        x = int(x / CELL_SIZE)
+        y = int(y / CELL_SIZE)
+        return x, y
+
+    def init_mouse(self):
+        self.mouse_down = False
+        self.last_cell = None
+        self.canvas.bind('<ButtonPress-1>', self.on_mouse_down)
+        self.canvas.bind('<ButtonRelease-1>', self.on_mouse_up)
+        self.canvas.bind('<Motion>', self.on_mouse_motion)
+
+    def on_mouse_down(self, event):
+        self.mouse_down = True
+        self.on_down(event)
+
+    def on_mouse_up(self, _):
+        self.mouse_down = False
+        if self.last_cell:
+            x = self.last_cell[0]
+            y = self.last_cell[1]
+            self.draw_cell(x, y)
+            self.last_cell = None
+
+    def on_mouse_motion(self, event):
+        if self.mouse_down:
+            self.on_down(event)
+
+    def on_down(self, event):
+        x, y = self.get_cell(event.x, event.y)
+        if (x, y) != self.last_cell:
+            if self.last_cell:
+                self.draw_cell(self.last_cell[0], self.last_cell[1])
+            if x > 0 and y > 0 and x < self.minesweeper.gui.width() and y < self.minesweeper.gui.height():
+                self.last_cell = x, y
+                state = self.minesweeper.game.state[x][y]
+                if state == States.COVERED or state == States.FLAG:
+                    self.draw_empty(x, y)
+            else:
+                self.last_cell = None
