@@ -95,3 +95,7 @@ class GUI:
             return int(self.mines_variable.get())
         except ValueError:
             return DEFAULT_MINES
+
+    def inside(self, cell):
+        x, y = cell
+        return x >= 0 and y >= 0 and x < self.width() and y < self.height()

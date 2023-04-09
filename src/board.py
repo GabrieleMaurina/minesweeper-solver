@@ -49,46 +49,46 @@ class Board:
     def draw_board(self):
         for x in range(self.minesweeper.gui.width()):
             for y in range(self.minesweeper.gui.height()):
-                self.draw_cell(x, y)
+                self.draw_cell((x, y))
 
-    def draw_cell(self, x, y):
-        v = self.minesweeper.game.state[x][y]
+    def draw_cell(self, cell):
+        v = self.minesweeper.game.get_state(cell)
         if v > 0 and v < 9:
-            self.draw_number(x, y, v)
+            self.draw_number(v, cell)
         elif v == States.UNCOVERED:
-            self.draw_uncovered(x, y)
+            self.draw_uncovered(cell)
         elif v == States.COVERED:
-            self.draw_covered(x, y)
+            self.draw_covered(cell)
         elif v == States.FLAG:
-            self.draw_flag(x, y)
+            self.draw_flag(cell)
         elif v == States.MINE:
-            self.draw_mine(x, y)
+            self.draw_mine(cell)
         elif v == States.RED_MINE:
-            self.draw_red_mine(x, y)
+            self.draw_red_mine(cell)
         else:
-            raise ValueError(f'Invalid value: {v}')
+            raise ValueError(f'Invalid state: {v}')
 
-    def coords(self, x, y):
-        x1 = x * CELL_SIZE + 2
+    def coords(self, cell):
+        x1 = cell[0] * CELL_SIZE + 2
         x2 = x1 + CELL_SIZE
-        y1 = y * CELL_SIZE + 2
+        y1 = cell[1] * CELL_SIZE + 2
         y2 = y1 + CELL_SIZE
         return x1, x2, y1, y2
 
-    def draw_empty(self, x, y):
-        x1, x2, y1, y2 = self.coords(x, y)
+    def draw_empty(self, cell):
+        x1, x2, y1, y2 = self.coords(cell)
         self.canvas.create_rectangle(
             x1, y1, x2, y2, fill=GRAY, outline='')
 
-    def draw_uncovered(self, x, y, red=False):
-        x1, x2, y1, y2 = self.coords(x, y)
+    def draw_uncovered(self, cell, red=False):
+        x1, x2, y1, y2 = self.coords(cell)
         self.canvas.create_rectangle(
             x1, y1, x2, y2, fill=DARK_GRAY, outline='')
         self.canvas.create_rectangle(
             x1 + EMPTY_DELTA, y1 + EMPTY_DELTA, x2 - EMPTY_DELTA, y2 - EMPTY_DELTA, fill=RED if red else GRAY, outline='')
 
-    def draw_covered(self, x, y):
-        x1, x2, y1, y2 = self.coords(x, y)
+    def draw_covered(self, cell):
+        x1, x2, y1, y2 = self.coords(cell)
         self.canvas.create_rectangle(
             x1, y1, x2, y2, fill=DARK_GRAY, outline='')
         self.canvas.create_polygon(
@@ -99,9 +99,9 @@ class Board:
     def get_number_color(self, number):
         return NUMBER_COLORS[number - 1]
 
-    def draw_number(self, x, y, number):
-        self.draw_uncovered(x, y)
-        x1, x2, y1, y2 = self.coords(x, y)
+    def draw_number(self, number, cell):
+        self.draw_uncovered(cell)
+        x1, x2, y1, y2 = self.coords(cell)
         x_center = (x1 + x2) / 2
         y_center = (y1 + y2) / 2
         color = self.get_number_color(number)
@@ -109,9 +109,9 @@ class Board:
         self.canvas.create_text(
             x_center, y_center, text=number, fill=color, font=font)
 
-    def draw_flag(self, x, y):
-        self.draw_covered(x, y)
-        x1, x2, y1, y2 = self.coords(x, y)
+    def draw_flag(self, cell):
+        self.draw_covered(cell)
+        x1, x2, y1, y2 = self.coords(cell)
         flag_d1 = 7
         flag_d2 = 12
         flag_d3 = 20
@@ -123,9 +123,9 @@ class Board:
         self.canvas.create_polygon(
             tuple(map(add, flag_coords, ((x1, y1) * 3))), fill=RED, outline='')
 
-    def draw_mine(self, x, y, red=False):
-        self.draw_uncovered(x, y, red=red)
-        x1, x2, y1, y2 = self.coords(x, y)
+    def draw_mine(self, cell, red=False):
+        self.draw_uncovered(cell, red=red)
+        x1, x2, y1, y2 = self.coords(cell)
         x_center = (x1 + x2) / 2
         y_center = (y1 + y2) / 2
         self.canvas.create_oval(x1 + MINE_DELTA, y1 + MINE_DELTA,
@@ -141,12 +141,12 @@ class Board:
         self.canvas.create_oval(x1 + MINE_WHITE_DELTA, y1 + MINE_WHITE_DELTA,
                                 x_center, y_center, fill=WHITE, outline='')
 
-    def draw_red_mine(self, x, y):
-        self.draw_mine(x, y, True)
+    def draw_red_mine(self, cell):
+        self.draw_mine(cell, red=True)
 
-    def get_cell(self, x, y):
-        x = int(x / CELL_SIZE)
-        y = int(y / CELL_SIZE)
+    def get_cell(self, cell):
+        x = int(cell[0] / CELL_SIZE)
+        y = int(cell[1] / CELL_SIZE)
         return x, y
 
     def init_mouse(self):
@@ -164,31 +164,29 @@ class Board:
     def on_mouse_up(self, _):
         self.mouse_down = False
         if self.last_cell:
-            x = self.last_cell[0]
-            y = self.last_cell[1]
-            self.last_cell = None
-            state = self.minesweeper.game.state[x][y]
+            state = self.minesweeper.game.get_state(self.last_cell)
             if state == States.COVERED or state == States.FLAG:
-                self.minesweeper.game.click(x, y)
+                self.minesweeper.game.click(self.last_cell)
+            self.last_cell = None
 
     def on_mouse_motion(self, event):
         if self.mouse_down:
             self.on_down(event)
 
     def on_down(self, event):
-        x, y = self.get_cell(event.x, event.y)
-        if (x, y) != self.last_cell:
+        cell = self.get_cell((event.x, event.y))
+        if cell != self.last_cell:
             if self.last_cell:
-                self.draw_cell(self.last_cell[0], self.last_cell[1])
-            if x > 0 and y > 0 and x < self.minesweeper.gui.width() and y < self.minesweeper.gui.height():
-                self.last_cell = x, y
-                state = self.minesweeper.game.state[x][y]
+                self.draw_cell(self.last_cell)
+            if self.minesweeper.gui.inside(cell):
+                self.last_cell = cell
+                state = self.minesweeper.game.get_state(cell)
                 if state == States.COVERED or state == States.FLAG:
-                    self.draw_empty(x, y)
+                    self.draw_empty(cell)
             else:
                 self.last_cell = None
 
     def on_right_click(self, event):
-        x, y = self.get_cell(event.x, event.y)
-        if x > 0 and y > 0 and x < self.minesweeper.gui.width() and y < self.minesweeper.gui.height():
-            self.minesweeper.game.right_click(x, y)
+        cell = self.get_cell((event.x, event.y))
+        if self.minesweeper.gui.inside(cell):
+            self.minesweeper.game.right_click(cell)
