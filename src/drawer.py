@@ -1,9 +1,7 @@
 import tkinter.font as tkfont
 from operator import add
 from colors import Colors
-
-
-CELL_SIZE = 30
+from consts import Consts
 
 COVER_DELTA = 4
 EMPTY_DELTA = 1
@@ -19,10 +17,10 @@ class Drawer:
         self.board = board
 
     def coords(self, cell):
-        x1 = cell[0] * CELL_SIZE + 2
-        x2 = x1 + CELL_SIZE
-        y1 = cell[1] * CELL_SIZE + 2
-        y2 = y1 + CELL_SIZE
+        x1 = cell[0] * Consts.CELL_SIZE + 2
+        x2 = x1 + Consts.CELL_SIZE
+        y1 = cell[1] * Consts.CELL_SIZE + 2
+        y2 = y1 + Consts.CELL_SIZE
         return x1, x2, y1, y2
 
     def draw_empty(self, cell):

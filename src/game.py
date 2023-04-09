@@ -28,6 +28,7 @@ class Game:
         if cell in self.mines:
             self.game_over(cell)
         self.open(cell)
+        self.check_win()
 
     def open(self, cell):
         queue = deque()
@@ -67,6 +68,17 @@ class Game:
         for mine in self.mines:
             if mine != cell and self.get_state(mine) == States.FLAG:
                 self.set_state(States.MINE, mine)
+
+    def check_win(self):
+        if self.over:
+            return
+        remaining = sum(1 for row in self.state for cell in row if cell ==
+                        States.COVERED or cell == States.FLAG)
+        if remaining == self.n_mines:
+            self.over = True
+            for mine in self.mines:
+                if self.get_state(mine) == States.COVERED:
+                    self.set_state(States.FLAG, mine)
 
     def get_state(self, cell):
         return self.state[cell[0]][cell[1]]

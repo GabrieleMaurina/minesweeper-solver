@@ -1,21 +1,22 @@
 import tkinter as tk
 from game import States
-from colors import Colors
-from drawer import Drawer, CELL_SIZE
+from drawer import Drawer
+from consts import Consts
 
 
 class Board:
-
     def __init__(self, minesweeper):
         self.minesweeper = minesweeper
-        self.canvas = tk.Canvas(
-            self.minesweeper.gui.main_page_frame, bg=Colors.GRAY)
+        self.canvas_frame = tk.Frame(
+            self.minesweeper.gui.main_page_frame, borderwidth=Consts.SMALL_BORDER, relief='sunken')
+        self.canvas = tk.Canvas(self.canvas_frame)
+        self.canvas.pack()
         self.drawer = Drawer(self)
 
     def resize(self):
-        self.canvas.configure(width=CELL_SIZE * self.minesweeper.gui.width(),
-                              height=CELL_SIZE * self.minesweeper.gui.height())
-        self.canvas.grid(row=1, column=0, columnspan=4)
+        self.canvas.configure(width=Consts.CELL_SIZE * self.minesweeper.gui.width(),
+                              height=Consts.CELL_SIZE * self.minesweeper.gui.height())
+        self.canvas_frame.pack(padx=Consts.PAD, pady=Consts.PAD, expand=True)
         self.draw_board()
 
     def draw_board(self):
@@ -41,6 +42,6 @@ class Board:
             raise ValueError(f'Cell {cell} invalid state {v}')
 
     def get_cell(self, cell):
-        x = int(cell[0] / CELL_SIZE)
-        y = int(cell[1] / CELL_SIZE)
+        x = int(cell[0] / Consts.CELL_SIZE)
+        y = int(cell[1] / Consts.CELL_SIZE)
         return x, y
