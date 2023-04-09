@@ -8,7 +8,7 @@ class Board:
     def __init__(self, minesweeper):
         self.minesweeper = minesweeper
         self.canvas_frame = tk.Frame(
-            self.minesweeper.gui.main_page_frame, borderwidth=Consts.SMALL_BORDER, relief='sunken')
+            self.minesweeper.gui.main_page_frame, borderwidth=Consts.BORDER, relief='sunken')
         self.canvas = tk.Canvas(self.canvas_frame)
         self.canvas.pack()
         self.drawer = Drawer(self)

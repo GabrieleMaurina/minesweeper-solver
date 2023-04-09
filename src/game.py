@@ -66,7 +66,7 @@ class Game:
         self.over = True
         self.set_state(States.RED_MINE, cell)
         for mine in self.mines:
-            if mine != cell and self.get_state(mine) == States.FLAG:
+            if mine != cell and self.get_state(mine) != States.FLAG:
                 self.set_state(States.MINE, mine)
 
     def check_win(self):

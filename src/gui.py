@@ -33,9 +33,9 @@ class GUI:
 
     def create_settings_page(self):
         self.settings_page_frame = tk.Frame(
-            self.root, borderwidth=Consts.BIG_BORDER, relief='raised')
+            self.root, borderwidth=Consts.BORDER, relief='raised')
         self.settings_frame = tk.Frame(
-            self.settings_page_frame, borderwidth=Consts.SMALL_BORDER, relief='sunken')
+            self.settings_page_frame, borderwidth=Consts.BORDER, relief='sunken')
         self.settings_frame.pack(expand=True, padx=Consts.PAD, pady=Consts.PAD)
         self.integer_only = (
             (self.root.register(lambda v: str.isdigit(v))), '%P')
@@ -65,14 +65,14 @@ class GUI:
         self.mines_entry.grid(row=2, column=1)
 
         self.start_button = tk.Button(
-            self.settings_frame, text='Start', command=self.show_main_page, font=self.font, borderwidth=6,)
+            self.settings_frame, text='Start', command=self.show_main_page, font=self.font, borderwidth=Consts.BUTTON_BORDER,)
         self.start_button.grid(row=3, column=0, columnspan=2)
 
     def create_main_page(self):
         self.main_page_frame = tk.Frame(
-            self.root, borderwidth=Consts.BIG_BORDER, relief='raised')
+            self.root, borderwidth=Consts.BORDER, relief='raised')
         self.menu_frame = tk.Frame(
-            self.main_page_frame, borderwidth=Consts.SMALL_BORDER, relief='sunken')
+            self.main_page_frame, borderwidth=Consts.BORDER, relief='sunken')
         self.menu_frame.pack(fill=tk.X, padx=Consts.PAD, pady=(Consts.PAD, 0))
         self.back_button = tk.Button(
             self.menu_frame, text='Back', command=self.show_settings_page, font=self.font)

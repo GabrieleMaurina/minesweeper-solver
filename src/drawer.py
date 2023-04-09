@@ -5,11 +5,11 @@ from consts import Consts
 
 COVER_DELTA = 4
 EMPTY_DELTA = 1
-MINE_DELTA = 7
+MINE_DELTA = 8
 MINE_WHITE_DELTA = 11
 MINE_WIDTH = 3
 
-FONT_SIZE = 15
+FONT_SIZE = 20
 
 
 class Drawer:
@@ -61,13 +61,13 @@ class Drawer:
         self.draw_covered(cell)
         x1, x2, y1, y2 = self.coords(cell)
         flag_d1 = 7
-        flag_d2 = 12
-        flag_d3 = 20
+        flag_d2 = 16
+        flag_d3 = 28
         self.board.canvas.create_rectangle(
             x1 + flag_d1, y1 + flag_d3, x2 - flag_d1, y2 - flag_d1, fill=Colors.BLACK, outline='')
         self.board.canvas.create_rectangle(
             x1 + flag_d2, y1 + flag_d2, x2 - flag_d2, y2 - flag_d1, fill=Colors.BLACK, outline='')
-        flag_coords = (18, 5, 18, 17, 6, 12)
+        flag_coords = (24, 5, 24, 24, 6, 16)
         self.board.canvas.create_polygon(
             tuple(map(add, flag_coords, ((x1, y1) * 3))), fill=Colors.RED, outline='')
 
