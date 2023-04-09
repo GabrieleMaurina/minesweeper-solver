@@ -5,7 +5,7 @@ from colors import Colors
 
 CELL_SIZE = 30
 
-COVER_DELTA = 3
+COVER_DELTA = 4
 EMPTY_DELTA = 1
 MINE_DELTA = 7
 MINE_WHITE_DELTA = 11
