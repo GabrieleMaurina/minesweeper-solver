@@ -9,6 +9,7 @@ class Game:
         self.minesweeper = minesweeper
 
     def init_state(self):
+        self.over = False
         width = self.minesweeper.gui.width()
         height = self.minesweeper.gui.height()
         self.n_cells = width * height
@@ -61,7 +62,11 @@ class Game:
             self.set_state(States.COVERED, cell)
 
     def game_over(self, cell):
+        self.over = True
         self.set_state(States.RED_MINE, cell)
+        for mine in self.mines:
+            if mine != cell:
+                self.set_state(States.MINE, mine)
 
     def get_state(self, cell):
         return self.state[cell[0]][cell[1]]
