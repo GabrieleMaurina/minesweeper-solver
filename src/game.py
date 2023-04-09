@@ -1,14 +1,7 @@
 from random import sample
 from functools import partial
 from collections import deque
-
-
-class States:
-    UNCOVERED = 0
-    COVERED = -1
-    FLAG = -2
-    MINE = -3
-    RED_MINE = -4
+from states import States
 
 
 class Game:
