@@ -19,3 +19,4 @@ class Colors:
     BLACK = '#000000'
     WHITE = '#ffffff'
     RED = '#ff0000'
+    DARK_RED = '#550000'

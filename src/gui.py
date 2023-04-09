@@ -3,6 +3,7 @@ import tkinter as tk
 import tkinter.font as tkfont
 from consts import Consts
 from colors import Colors
+from display import Display
 
 
 DEFAULT_WIDTH = 20
@@ -79,15 +80,22 @@ class GUI:
         self.menu_frame = tk.Frame(
             self.main_page_frame, borderwidth=Consts.BORDER, relief='sunken')
         self.menu_frame.pack(fill=tk.X, padx=Consts.PAD, pady=(Consts.PAD, 0))
+
+        self.counter_display = Display(self.menu_frame, 3)
+        self.counter_display.on()
+        self.counter_display.grid(row=0, column=0)
+
         self.back_button = tk.Button(
             self.menu_frame, text='Back', command=self.show_settings_page, font=self.font)
-        self.back_button.grid(row=0, column=0)
+        self.back_button.grid(row=0, column=1)
+
         self.next_button = tk.Button(
             self.menu_frame, text='Next', command=None, font=self.font)
-        self.next_button.grid(row=0, column=1)
+        self.next_button.grid(row=0, column=2)
+
         self.solve_button = tk.Button(
             self.menu_frame, text='Solve', command=None, font=self.font)
-        self.solve_button.grid(row=0, column=2)
+        self.solve_button.grid(row=0, column=3)
 
     def show_settings_page(self):
         self.settings_page_frame.pack(fill=tk.BOTH, expand=True)
