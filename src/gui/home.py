@@ -1,6 +1,7 @@
 import tkinter as tk
 from consts.consts import Consts
-from gui.display import Display
+from gui.display.counter import Counter
+from gui.display.timer import Timer
 
 
 class Home:
@@ -19,7 +20,7 @@ class Home:
         self.menu_frame.columnconfigure(0, weight=1)
         self.menu_frame.columnconfigure(4, weight=1)
 
-        self.counter_display = Display(self.menu_frame)
+        self.counter_display = Counter(self.menu_frame)
         self.counter_display.grid(row=0, column=0, sticky=tk.W)
 
         self.back_button = tk.Button(
@@ -34,7 +35,7 @@ class Home:
             self.menu_frame, text='Solve', command=None, font=self.gui.font)
         self.solve_button.grid(row=0, column=3)
 
-        self.timer_display = Display(self.menu_frame)
+        self.timer_display = Timer(self.menu_frame)
         self.timer_display.grid(row=0, column=4, sticky=tk.E)
 
     def hide(self):
