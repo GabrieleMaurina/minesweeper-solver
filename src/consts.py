@@ -8,3 +8,5 @@ class Consts:
     DISPLAY_HEIGHT = 100
     DISPLAY_ON = -1
     DISPLAY_OFF = -2
+    SEGMENT_WIDTH = 10
+    SEGMENT_DELTA = 5
