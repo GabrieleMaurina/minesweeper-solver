@@ -1,5 +1,5 @@
 from gui.gui import GUI
-from board import Board
+from board.board import Board
 from mouse import Mouse
 from game import Game
 from solver import Solver
