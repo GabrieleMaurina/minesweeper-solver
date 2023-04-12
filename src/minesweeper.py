@@ -1,8 +1,8 @@
 from gui.gui import GUI
 from board.board import Board
-from mouse import Mouse
-from game import Game
-from solver import Solver
+from misc.mouse import Mouse
+from misc.game import Game
+from solver.solver import Solver
 
 
 class Minesweeper:

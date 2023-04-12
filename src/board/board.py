@@ -1,5 +1,5 @@
 import tkinter as tk
-from game import States
+from misc.game import States
 from board.drawer import Drawer
 from consts.consts import Consts
 
