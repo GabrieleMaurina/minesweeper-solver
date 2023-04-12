@@ -1,6 +1,6 @@
 import tkinter as tk
-from consts import Consts
-from colors import Colors
+from consts.consts import Consts
+from consts.colors import Colors
 
 
 DEFAULT_WIDTH = 20

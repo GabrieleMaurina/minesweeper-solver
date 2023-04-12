@@ -1,7 +1,7 @@
 from random import sample
 from functools import partial
 from collections import deque
-from states import States
+from consts.states import States
 
 
 class Game:

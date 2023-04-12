@@ -1,6 +1,6 @@
 import tkinter as tk
-from consts import Consts
-from display import Display
+from consts.consts import Consts
+from gui.display import Display
 
 
 class Home:

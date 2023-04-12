@@ -1,7 +1,7 @@
 import tkinter as tk
 from game import States
 from board.drawer import Drawer
-from consts import Consts
+from consts.consts import Consts
 
 
 class Board:

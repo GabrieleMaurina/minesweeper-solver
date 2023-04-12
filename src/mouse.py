@@ -1,4 +1,4 @@
-from states import States
+from consts.states import States
 
 
 class Mouse:

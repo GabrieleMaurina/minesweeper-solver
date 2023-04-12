@@ -1,6 +1,6 @@
 import tkinter as tk
-from colors import Colors
-from consts import Consts
+from consts.colors import Colors
+from consts.consts import Consts
 
 
 class Display:

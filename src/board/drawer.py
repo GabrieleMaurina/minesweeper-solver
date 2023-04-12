@@ -1,7 +1,7 @@
 import tkinter.font as tkfont
 from operator import add
-from colors import Colors
-from consts import Consts
+from consts.colors import Colors
+from consts.consts import Consts
 
 COVER_DELTA = 4
 EMPTY_DELTA = 1
