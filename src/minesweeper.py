@@ -1,4 +1,4 @@
-from gui import GUI
+from gui.gui import GUI
 from board import Board
 from mouse import Mouse
 from game import Game

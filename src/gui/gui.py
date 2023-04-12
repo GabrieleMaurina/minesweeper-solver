@@ -1,8 +1,8 @@
 import platform
 import tkinter as tk
 import tkinter.font as tkfont
-from settings import Settings, DEFAULT_HEIGHT, DEFAULT_WIDTH, DEFAULT_MINES
-from home import Home
+from gui.settings import Settings, DEFAULT_HEIGHT, DEFAULT_WIDTH, DEFAULT_MINES
+from gui.home import Home
 
 
 FONT_SIZE = 10
