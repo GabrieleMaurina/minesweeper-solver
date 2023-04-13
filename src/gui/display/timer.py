@@ -9,8 +9,9 @@ class Timer(Display):
 
     def start(self):
         self.t = time()
-        self.running = True
-        self.label.after(1000, self.update)
+        if not self.running:
+            self.running = True
+            self.label.after(1000, self.update)
 
     def stop(self):
         self.running = False

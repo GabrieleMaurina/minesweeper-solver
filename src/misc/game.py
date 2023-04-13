@@ -10,6 +10,8 @@ class Game:
 
     def init_state(self):
         self.over = False
+        self.started = False
+        self.minesweeper.gui.home.timer_display.reset()
         width = self.minesweeper.gui.width()
         height = self.minesweeper.gui.height()
         self.n_cells = width * height
@@ -25,6 +27,7 @@ class Game:
         return x, y
 
     def click(self, cell):
+        self.start_timer()
         if cell in self.mines:
             self.game_over(cell)
         self.open(cell)
@@ -57,13 +60,20 @@ class Game:
                     yield nx, ny
 
     def right_click(self, cell):
+        self.start_timer()
         if self.get_state(cell) == States.COVERED:
             self.set_state(States.FLAG, cell)
         elif self.get_state(cell) == States.FLAG:
             self.set_state(States.COVERED, cell)
 
+    def start_timer(self):
+        if not self.started:
+            self.started = True
+            self.minesweeper.gui.home.timer_display.start()
+
     def game_over(self, cell):
         self.over = True
+        self.minesweeper.gui.home.timer_display.stop()
         self.set_state(States.RED_MINE, cell)
         for mine in self.mines:
             if mine != cell and self.get_state(mine) != States.FLAG:
@@ -76,6 +86,7 @@ class Game:
                         States.COVERED or cell == States.FLAG)
         if remaining == self.n_mines:
             self.over = True
+            self.minesweeper.gui.home.timer_display.stop()
             for mine in self.mines:
                 if self.get_state(mine) == States.COVERED:
                     self.set_state(States.FLAG, mine)
