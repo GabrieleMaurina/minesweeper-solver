@@ -84,5 +84,10 @@ class Game:
         return self.state[cell[0]][cell[1]]
 
     def set_state(self, value, cell):
+        if self.get_state(cell) != value:
+            if value == States.FLAG:
+                self.minesweeper.gui.home.counter_display.dec()
+            elif self.get_state(cell) == States.FLAG:
+                self.minesweeper.gui.home.counter_display.inc()
         self.state[cell[0]][cell[1]] = value
         self.minesweeper.board.draw_cell(cell)

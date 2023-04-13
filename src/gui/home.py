@@ -43,3 +43,4 @@ class Home:
 
     def show(self):
         self.home_frame.pack(fill=tk.BOTH, expand=True)
+        self.counter_display.set(self.gui.minesweeper.game.n_mines)
