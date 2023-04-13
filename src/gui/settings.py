@@ -5,7 +5,7 @@ from consts.colors import Colors
 
 DEFAULT_WIDTH = 20
 DEFAULT_HEIGHT = 20
-DEFAULT_MINES = 20
+DEFAULT_MINES = 40
 
 
 class Settings:
