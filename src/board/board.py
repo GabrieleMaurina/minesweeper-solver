@@ -2,6 +2,8 @@ import tkinter as tk
 from misc.game import States
 from board.drawer import Drawer
 from consts.consts import Consts
+from consts.colors import Colors
+from board.cell import Cell
 
 
 class Board:
@@ -9,9 +11,11 @@ class Board:
         self.minesweeper = minesweeper
         self.canvas_frame = tk.Frame(
             self.minesweeper.gui.home.home_frame, borderwidth=Consts.BORDER, relief='sunken')
-        self.canvas = tk.Canvas(self.canvas_frame)
+        self.canvas = tk.Canvas(self.canvas_frame, bg=Colors.GRAY)
         self.canvas.pack()
         self.drawer = Drawer(self)
+        self.cells = [[Cell(self, (x, y)) for y in range(
+            self.minesweeper.gui.height())] for x in range(self.minesweeper.gui.width())]
 
     def resize(self):
         self.canvas.configure(width=Consts.CELL_SIZE * self.minesweeper.gui.width(),
@@ -20,26 +24,12 @@ class Board:
         self.draw_board()
 
     def draw_board(self):
-        for x in range(self.minesweeper.gui.width()):
-            for y in range(self.minesweeper.gui.height()):
-                self.draw_cell((x, y))
+        for column in self.cells:
+            for cell in column:
+                cell.update()
 
     def draw_cell(self, cell):
-        v = self.minesweeper.game.get_state(cell)
-        if v > 0 and v < 9:
-            self.drawer.draw_number(v, cell)
-        elif v == States.UNCOVERED:
-            self.drawer.draw_uncovered(cell)
-        elif v == States.COVERED:
-            self.drawer.draw_covered(cell)
-        elif v == States.FLAG:
-            self.drawer.draw_flag(cell)
-        elif v == States.MINE:
-            self.drawer.draw_mine(cell)
-        elif v == States.RED_MINE:
-            self.drawer.draw_red_mine(cell)
-        else:
-            raise ValueError(f'Cell {cell} invalid state {v}')
+        self.cells[cell[0]][cell[1]].update()
 
     def get_cell(self, cell):
         x = int(cell[0] / Consts.CELL_SIZE)

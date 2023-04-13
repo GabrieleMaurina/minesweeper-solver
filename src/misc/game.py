@@ -15,7 +15,7 @@ class Game:
         width = self.minesweeper.gui.width()
         height = self.minesweeper.gui.height()
         self.n_cells = width * height
-        self.n_mines = min(self.n_cells//4, self.minesweeper.gui.mines())
+        self.n_mines = min(self.n_cells, self.minesweeper.gui.mines())
         mines_sample = sample(range(self.n_cells), self.n_mines)
         self.mines = set(map(partial(self.coords, width), mines_sample))
         self.state = [[States.COVERED for _ in range(height)]
