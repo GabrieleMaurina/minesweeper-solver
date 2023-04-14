@@ -1,9 +1,7 @@
 import tkinter as tk
 from misc.game import States
-from board.drawer import Drawer
 from consts.consts import Consts
 from consts.colors import Colors
-from board.cell import Cell
 
 
 class Board:
@@ -12,24 +10,32 @@ class Board:
         self.canvas_frame = tk.Frame(
             self.minesweeper.gui.home.home_frame, borderwidth=Consts.BORDER, relief='sunken')
         self.canvas = tk.Canvas(self.canvas_frame, bg=Colors.GRAY)
+        self.canvas_cells = {}
         self.canvas.pack()
-        self.drawer = Drawer(self)
-        self.cells = [[Cell(self, (x, y)) for y in range(
-            self.minesweeper.gui.height())] for x in range(self.minesweeper.gui.width())]
 
     def resize(self):
+        for image in self.canvas_cells.values():
+            self.canvas.delete(image)
         self.canvas.configure(width=Consts.CELL_SIZE * self.minesweeper.gui.width(),
                               height=Consts.CELL_SIZE * self.minesweeper.gui.height())
         self.canvas_frame.pack(padx=Consts.PAD, pady=Consts.PAD, expand=True)
-        self.draw_board()
+        self.update_board()
 
-    def draw_board(self):
-        for column in self.cells:
-            for cell in column:
-                cell.update()
+    def update_cell(self, cell):
+        self.empty_cell(cell)
+        status = self.minesweeper.game.get_state(cell)
+        new_image = self.minesweeper.gui.images.dict[status]
+        self.canvas_cells[cell] = self.canvas.create_image(
+            cell[0] * Consts.CELL_SIZE, cell[1] * Consts.CELL_SIZE, image=new_image, anchor='nw')
 
-    def draw_cell(self, cell):
-        self.cells[cell[0]][cell[1]].update()
+    def empty_cell(self, cell):
+        if cell in self.canvas_cells:
+            self.canvas.delete(self.canvas_cells[cell])
+
+    def update_board(self):
+        for x in range(self.minesweeper.gui.width()):
+            for y in range(self.minesweeper.gui.height()):
+                self.update_cell((x, y))
 
     def get_cell(self, cell):
         x = int(cell[0] / Consts.CELL_SIZE)

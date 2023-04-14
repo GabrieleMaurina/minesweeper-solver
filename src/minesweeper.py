@@ -3,7 +3,6 @@ from board.board import Board
 from misc.mouse import Mouse
 from misc.game import Game
 from solver.solver import Solver
-from consts.images import Images
 
 
 class Minesweeper:

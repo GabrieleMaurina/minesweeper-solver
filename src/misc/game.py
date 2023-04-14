@@ -44,7 +44,7 @@ class Game:
             if mines:
                 self.set_state(mines, cell)
             else:
-                self.set_state(States.UNCOVERED, cell)
+                self.set_state(0, cell)
                 for neighbor in self.neighbors(cell):
                     queue.append(neighbor)
 
@@ -101,4 +101,4 @@ class Game:
             elif self.get_state(cell) == States.FLAG:
                 self.minesweeper.gui.home.counter_display.inc()
         self.state[cell[0]][cell[1]] = value
-        self.minesweeper.board.draw_cell(cell)
+        self.minesweeper.board.update_cell(cell)

@@ -25,7 +25,7 @@ class Mouse:
             state = self.minesweeper.game.get_state(self.last_cell)
             if state == States.COVERED or state == States.FLAG:
                 if self.minesweeper.game.over:
-                    self.minesweeper.board.draw_cell(self.last_cell)
+                    self.minesweeper.board.update_cell(self.last_cell)
                 else:
                     self.minesweeper.game.click(self.last_cell)
             self.last_cell = None
@@ -38,12 +38,12 @@ class Mouse:
         cell = self.minesweeper.board.get_cell((event.x, event.y))
         if cell != self.last_cell:
             if self.last_cell:
-                self.minesweeper.board.draw_cell(self.last_cell)
+                self.minesweeper.board.update_cell(self.last_cell)
             if self.minesweeper.gui.inside(cell):
                 self.last_cell = cell
                 state = self.minesweeper.game.get_state(cell)
                 if state == States.COVERED or state == States.FLAG:
-                    self.minesweeper.board.drawer.draw_empty(cell)
+                    self.minesweeper.board.empty_cell(cell)
             else:
                 self.last_cell = None
 

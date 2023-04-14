@@ -1,6 +1,10 @@
 class States:
-    UNCOVERED = 0
     COVERED = -1
     FLAG = -2
-    MINE = -3
-    RED_MINE = -4
+    QUESTION_MARK = -3
+    MINE = -4
+    RED_MINE = -5
+
+    SMILE = -6
+    SUNGLASSES = -7
+    DEAD = -8

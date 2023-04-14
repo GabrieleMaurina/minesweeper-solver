@@ -3,6 +3,7 @@ import tkinter as tk
 import tkinter.font as tkfont
 from gui.settings import Settings, DEFAULT_HEIGHT, DEFAULT_WIDTH, DEFAULT_MINES
 from gui.home import Home
+from consts.images import Images
 
 
 FONT_SIZE = 10
@@ -15,6 +16,7 @@ class GUI:
         self.root = tk.Tk()
         self.root.title('Minesweeper')
         self.font = tkfont.Font(size=FONT_SIZE, weight='bold')
+        self.images = Images()
         self.settings = Settings(self)
         self.home = Home(self)
         self.show_settings_page()
