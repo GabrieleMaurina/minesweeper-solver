@@ -52,11 +52,9 @@ class Game:
         return sum(1 for nx, ny in self.neighbors(cell) if (nx, ny) in self.mines)
 
     def neighbors(self, cell):
-        width = self.minesweeper.gui.width()
-        height = self.minesweeper.gui.height()
         for nx in range(cell[0]-1, cell[0]+2):
             for ny in range(cell[1]-1, cell[1]+2):
-                if nx >= 0 and ny >= 0 and nx < width and ny < height and (nx, ny) != (cell[0], cell[1]):
+                if (nx, ny) != cell and self.minesweeper.gui.inside((nx, ny)):
                     yield nx, ny
 
     def right_click(self, cell):
