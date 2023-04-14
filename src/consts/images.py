@@ -11,8 +11,8 @@ FOLDER = 'resources/images'
 class Images:
     def __init__(self):
         self.numbers = [self.load_image(str(i)) for i in range(9)]
-        # self.mine = self.load_image('mine')
-        # self.red_mine = self.load_image('red_mine')
+        self.mine = self.load_image('mine')
+        self.red_mine = self.load_image('red_mine')
         self.flag = self.load_image('flag')
         self.questionmark = self.load_image('question_mark')
         self.covered = self.load_image('covered')
@@ -22,7 +22,7 @@ class Images:
 
     def load_image(self, name):
         bytes = BytesIO()
-        svg2png(url=join(FOLDER, name+'.svg'), write_to=bytes)
+        svg2png(url=join(FOLDER, name+'.svg'), write_to=bytes, scale=3)
         return Image.open(bytes).resize((Consts.CELL_SIZE, Consts.CELL_SIZE))
 
 
