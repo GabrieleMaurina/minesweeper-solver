@@ -34,7 +34,7 @@ class GUI:
         self.settings.show()
         self.home.hide()
 
-    def show_main_page(self):
+    def show_home_page(self):
         self.minesweeper.game.init_state()
         self.minesweeper.board.resize()
         self.settings.hide()

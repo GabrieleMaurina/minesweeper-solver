@@ -64,6 +64,8 @@ class Game:
         if self.get_state(cell) == States.COVERED:
             self.set_state(States.FLAG, cell)
         elif self.get_state(cell) == States.FLAG:
+            self.set_state(States.QUESTION_MARK, cell)
+        elif self.get_state(cell) == States.QUESTION_MARK:
             self.set_state(States.COVERED, cell)
 
     def start_timer(self):
@@ -78,18 +80,22 @@ class Game:
         for mine in self.mines:
             if mine != cell and self.get_state(mine) != States.FLAG:
                 self.set_state(States.MINE, mine)
+        self.minesweeper.gui.home.face_button.set_status(States.DEAD)
+
+    def remaining(self, state):
+        return state == States.COVERED or state == States.FLAG or state == States.QUESTION_MARK
 
     def check_win(self):
         if self.over:
             return
-        remaining = sum(1 for row in self.state for cell in row if cell ==
-                        States.COVERED or cell == States.FLAG)
-        if remaining == self.n_mines:
+        tot = sum(1 for row in self.state for state in row if self.remaining(state))
+        if tot == self.n_mines:
             self.over = True
             self.minesweeper.gui.home.timer_display.stop()
             for mine in self.mines:
-                if self.get_state(mine) == States.COVERED:
+                if self.get_state(mine) == States.COVERED or self.get_state(mine) == States.QUESTION_MARK:
                     self.set_state(States.FLAG, mine)
+            self.minesweeper.gui.home.face_button.set_status(States.SUNGLASSES)
 
     def get_state(self, cell):
         return self.state[cell[0]][cell[1]]

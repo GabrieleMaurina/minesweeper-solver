@@ -1,5 +1,6 @@
 import tkinter as tk
 from consts.consts import Consts
+from consts.states import States
 from gui.display.counter import Counter
 from gui.display.timer import Timer
 from gui.face import Face
@@ -28,8 +29,8 @@ class Home:
             self.menu_frame, text='Back', command=self.gui.show_settings_page, font=self.gui.font, borderwidth=Consts.SMALL_BORDER)
         self.back_button.grid(row=0, column=1)
 
-        self.next_button = Face(self)
-        self.next_button.grid(row=0, column=2)
+        self.face_button = Face(self)
+        self.face_button.grid(row=0, column=2)
 
         self.solve_button = tk.Button(
             self.menu_frame, text='Solve', command=None, font=self.gui.font, borderwidth=Consts.SMALL_BORDER)
@@ -44,3 +45,4 @@ class Home:
     def show(self):
         self.home_frame.pack(fill=tk.BOTH, expand=True)
         self.counter_display.set(self.gui.minesweeper.game.n_mines)
+        self.face_button.set_status(States.SMILE)

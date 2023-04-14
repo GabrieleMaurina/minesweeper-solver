@@ -3,9 +3,9 @@ from consts.consts import Consts
 from consts.colors import Colors
 
 
-DEFAULT_WIDTH = 20
-DEFAULT_HEIGHT = 20
-DEFAULT_MINES = 40
+DEFAULT_WIDTH = 10
+DEFAULT_HEIGHT = 10
+DEFAULT_MINES = 10
 
 
 class Settings:
@@ -21,7 +21,7 @@ class Settings:
             self.settings_page_frame, borderwidth=Consts.BORDER, relief='sunken')
         self.settings_frame.pack(expand=True, padx=Consts.PAD, pady=Consts.PAD)
         self.integer_only = (
-            (self.gui.root.register(lambda v: str.isdigit(v))), '%P')
+            (self.gui.root.register(lambda v: v == '' or str.isdigit(v))), '%P')
 
         self.width_label = tk.Label(
             self.settings_frame, text='Width', font=self.gui.font)
@@ -51,7 +51,7 @@ class Settings:
         self.mines_entry.grid(row=2, column=1)
 
         self.start_button = tk.Button(
-            self.settings_frame, text='Start', command=self.gui.show_main_page,
+            self.settings_frame, text='Start', command=self.gui.show_home_page,
             font=self.gui.font, borderwidth=Consts.SMALL_BORDER,)
         self.start_button.grid(row=3, column=0, columnspan=2)
 

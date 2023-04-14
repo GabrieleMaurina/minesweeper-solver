@@ -26,7 +26,7 @@ class Board:
         status = self.minesweeper.game.get_state(cell)
         new_image = self.minesweeper.gui.images.dict[status]
         self.canvas_cells[cell] = self.canvas.create_image(
-            cell[0] * Consts.CELL_SIZE, cell[1] * Consts.CELL_SIZE, image=new_image, anchor='nw')
+            cell[0] * Consts.CELL_SIZE + 1, cell[1] * Consts.CELL_SIZE + 1, image=new_image, anchor='nw')
 
     def empty_cell(self, cell):
         if cell in self.canvas_cells:
