@@ -5,6 +5,8 @@ class States:
     MINE = -4
     RED_MINE = -5
 
+    CLICKABLE = (COVERED, FLAG, QUESTION_MARK)
+
     SMILE = -6
     SUNGLASSES = -7
     DEAD = -8

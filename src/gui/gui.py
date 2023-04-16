@@ -24,6 +24,9 @@ class GUI:
     def start(self):
         self.root.mainloop()
 
+    def update(self):
+        self.root.update_idletasks()
+
     def fix_res(self):
         os = platform.system()
         if os == 'Windows':

@@ -33,7 +33,7 @@ class Home:
         self.face_button.grid(row=0, column=2)
 
         self.solve_button = tk.Button(
-            self.menu_frame, text='Solve', command=None, font=self.gui.font, borderwidth=Consts.SMALL_BORDER)
+            self.menu_frame, text='Solve', command=lambda: self.gui.minesweeper.solver.solve(), font=self.gui.font, borderwidth=Consts.SMALL_BORDER)
         self.solve_button.grid(row=0, column=3)
 
         self.timer_display = Timer(self.menu_frame)
